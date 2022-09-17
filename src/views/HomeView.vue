@@ -3,15 +3,10 @@
     <OptionButtons @OptSelection="OptSelectionChange" class="is-pulled-left"/>
     <div class="columns mt-0">
       <div class="column is-one-third is-vcentered">
-        <label
-          for="datepicker"
-          class="is-half is-size-5 is-pulled-left is-vcentered"
-        >
+        <label for="datepicker" class="is-half is-size-6 is-pulled-left">
           Claim Date
         </label>
-        <datepicker
-          name="datepicker"
-          class="is-pulled-left is-half"
+        <datepicker name="datepicker" class="is-pulled-left is-half is-small"
           :config="{ dateFormat: 'd-m-Y', static: true }"></datepicker>
       </div>
       <div class="column is-one-third">
@@ -34,9 +29,9 @@
         />
       </div>
     </div>
-    <div class="columns mt-3">
+    <div class="columns">
       <div class="column is-one-quarter">
-        <div class="is-size-3 mb-1">Opening Balances</div>
+        <div class="is-size-4 mb-1">Opening Balances</div>
         <NumberInputField
           @input="(ev)=> this.commonwealthBalance = parseFloat(ev.target.value)"
           label="Commonwealth Balance"
@@ -59,7 +54,7 @@
         />
       </div>
       <div class="column is-one-quarter">
-        <div class="is-size-3 mb-1">Package Incomes</div>
+        <div class="is-size-4">Package Incomes</div>
         <NumberInputField
           label="Subsidy"
           :value="subsidyIncome"
@@ -87,95 +82,67 @@
         />
       </div>
       <div class="column is-one-quarter">
-        <div class="is-size-3 mb-1">Expenses</div>
+        <div class="is-size-4 mb-1">Expenses</div>
         <NumberInputField
           label="Care and Services Total"
           :value="careServicesTotal"
           @input="(ev)=> this.careServicesTotal = parseFloat(ev.target.value)"
         />
       </div>
-      <div class="is-one-quarter column">
-        <div class="is-size-3 mb-1">Claimed Amounts</div>
-        <NumberField label="Care and Services Total" :value=expensesTotal />
-        <NumberField label="LESS BDF" :value=totalLessBdfClaimedAmount />
-        <NumberField
-          label="LESS Other Fees and Charges"
-          :value=totalLessOtherFeesChargesClaimedAmount
-        />
-      </div>
+      <ClaimedAmounts
+        :expenses-total="expensesTotal"
+        :total-less-other-fees-charges-claimed-amount="totalLessOtherFeesChargesClaimedAmount"
+        :total-less-bdf-claimed-amount="totalLessBdfClaimedAmount"
+      />
       </div>
     <div class="columns">
       <div class="is-one-quarter column">
-        <TotalField
-          class="column"
-          label="Opening Balances Total"
-          :value="openingBalancesTotal"
+        <TotalField label="Opening Balances Total" :value="openingBalancesTotal"
         />
       </div>
       <div class="is-one-quarter column">
-        <TotalField
-          class="column"
-          label="Package Income Total"
-          :value="packageIncomeTotal"
+        <TotalField label="Package Income Total" :value="packageIncomeTotal"
         />
       </div>
       <div class="is-one-quarter column">
-        <TotalField
-          class="column"
-          label="Expenses Total"
-          :value="expensesTotal"
-        />
+        <TotalField label="Expenses Total" :value="expensesTotal"/>
       </div>
       <div class="is-one-quarter column">
-        <TotalField
-          class="column"
-          label="Invoice Amount"
-          :value="totalLessOtherFeesChargesClaimedAmount"
+        <TotalField label="Invoice Amount" :value="totalLessOtherFeesChargesClaimedAmount"
         />
       </div>
     </div>
-    <div class="columns mt-5">
-      <div class="is-one-quarter column">
-        <div class="is-size-3 mb-1">Shortfall</div>
-        <NumberField label="Invoice Amount" :value="totalLessOtherFeesChargesClaimedAmount" />
-        <NumberField label="LESS ITF" :value="invoiceLessItf" />
-      </div>
-      <div class="is-one-quarter column">
-        <div class="is-size-3 mb-1">Payment</div>
-        <NumberField label="Maximum Government Contribution" :value="maxGovContribution" />
-        <NumberField label="Shortfall" :value="invoiceLessItf" />
-        <NumberField label="Payment Determination to Provider" :value="paymentDetermination" />
-      </div>
-      <div class="is-one-quarter column">
-        <div class="is-size-3 mb-1">Reconciliation</div>
-        <NumberField label="Total AR" :value="expensesTotal" />
-        <NumberField label="Payment Determination" :value="paymentDetermination" />
-        <NumberField label="Deduct CR Unspent" :value="totalLessCrUnspent" />
-        <NumberField label="Deduct CW Unspent" :value="totalLessCwUnspent" />
-        <NumberField label="Deduct Pre 2015 Unspent" :value="totalLessPre2015" />
-      </div>
-      <div class="is-one-quarter column">
-        <div class="is-size-3 mb-1">Closing Balances</div>
-        <NumberField label="Home Care Account" :value="homeCareClosing" />
-        <NumberField label="CR Unspent Funds" :value="crUnspentClosing" />
-        <NumberField label="CW Unspend Funds" :value="cwUnspentClosing" />
-        <NumberField label="Pre 1st July 2015 Unspent Funds" :value="pre2015UnspentClosing" />
-        <NumberField label="Overspend" :value="overspendClosing" />
-      </div>
+    <div class="columns">
+      <Shortfall
+        :total-less-other-fees-charges-claimed-amount="totalLessOtherFeesChargesClaimedAmount"
+        :invoice-less-itf="invoiceLessItf"
+      />
+      <Payment
+        :invoice-less-itf="invoiceLessItf"
+        :max-gov-contribution="maxGovContribution"
+        :payment-determination="paymentDetermination"
+      />
+      <Reconciliation
+        :payment-determination="paymentDetermination"
+        :expenses-total="expensesTotal"
+        :total-less-cr-unspent="totalLessCrUnspent"
+        :total-less-cw-unspent="totalLessCwUnspent"
+        :total-less-pre2015="totalLessPre2015"
+      />
+      <ClosingBalances
+        :cr-unspent-closing="crUnspentClosing"
+        :cw-unspent-closing="cwUnspentClosing"
+        :home-care-closing="homeCareClosing"
+        :overspend-closing="overspendClosing"
+        :pre2015-unspent-closing="pre2015UnspentClosing"
+      />
     </div>
-    <div class="columns mt-5">
+    <div class="columns">
       <div class="is-one-quarter column">
-        <TotalField
-          class="column"
-          label="Shortfall"
-          :value="invoiceLessItf"
-        />
+        <TotalField label="Shortfall" :value="invoiceLessItf"/>
       </div>
       <div class="is-one-quarter column">
-        <TotalField
-          class="column"
-          label="Payment Determination"
-          :value="paymentDetermination"
+        <TotalField label="Payment Determination" :value="paymentDetermination"
         />
       </div>
       <div class="is-one-quarter column">
@@ -193,20 +160,28 @@
 import OptionButtons from '@/components/OptButtons.vue';
 import InputField from '@/components/InputField.vue';
 import NumberInputField from '@/components/NumberInputField.vue';
-import NumberField from '@/components/NumberField.vue';
 import TotalField from '@/components/TotalField.vue';
 import { SELECTIONS } from '@/components/constants';
 import Datepicker from 'vue-bulma-datepicker';
+import Shortfall from '@/components/Shortfall.vue';
+import Payment from '@/components/Payment.vue';
+import Reconciliation from '@/components/Reconcilliation.vue';
+import ClosingBalances from '@/components/ClosingBalances.vue';
+import ClaimedAmounts from '@/components/ClaimedAmounts.vue';
 
 export default {
   name: 'HomeView',
   components: {
+    ClaimedAmounts,
+    ClosingBalances,
+    Reconciliation,
     OptionButtons,
     InputField,
     NumberInputField,
     TotalField,
-    NumberField,
     Datepicker,
+    Shortfall,
+    Payment,
   },
   data() {
     return {
@@ -316,7 +291,6 @@ export default {
       );
     },
     crUnspentClosing() {
-      debugger;
       return (
         (this.careRecipientBalance || 0)
         + (this.bdfIncome || 0)
@@ -350,5 +324,15 @@ export default {
 .home {
   padding-left: 5%;
   padding-right: 5%;
+}
+.column {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+label.column {
+  padding: 0.4em;
+}
+.columns:not(:last-child) {
+  margin-bottom: 0;
 }
 </style>

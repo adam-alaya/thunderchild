@@ -2,12 +2,12 @@
   <div class="control columns is-vcentered">
     <label
       for="input"
-      class="is-size-5 column is-pulled-left"
+      class="is-size-6 column is-pulled-left"
       :class="{'is-four-fifths': !wideInput, 'is-half': wideInput}">
         {{ label }}
     </label>
     <input
-      class="input is-pulled-right"
+      class="input is-small is-pulled-right"
       :class="{'is-four-fifths': !wideInput, 'is-half': wideInput}"
       :type="isText ? 'text' : 'number'"
       :placeholder="placeholder"

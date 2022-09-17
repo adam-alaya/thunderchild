@@ -1,12 +1,12 @@
 <template>
   <div class="control columns is-vcentered horizontal-rule m-0 pt-0 pb-0">
     <span
-      class="is-size-5 column mr-2 is-pulled-left is-four-fifths"
+      class="is-size-6 column mr-2 is-pulled-left is-four-fifths"
     >
         {{ label }}
     </span>
     <span
-      class="input is-pulled-right is-one-fifth"
+      class="input is-small is-pulled-right is-one-fifth"
     >
         {{ value }}
     </span>

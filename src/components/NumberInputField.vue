@@ -1,13 +1,13 @@
 <template>
-  <div class="control columns is-vcentered">
+  <div class="control columns is-vcentered p-0 m-0">
     <label
       for="input"
-      class="is-size-5 column is-pulled-left"
+      class="is-size-6 column is-pulled-left"
       :class="{'is-four-fifths': !wideInput, 'is-half': wideInput}">
         {{ label }}
     </label>
     <input
-      class="input is-pulled-right"
+      class="input is-small is-pulled-right p-1 m-0"
       :class="{'is-four-fifths': !wideInput, 'is-half': wideInput}"
       type="number"
       :placeholder="placeholder"
