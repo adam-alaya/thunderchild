@@ -197,7 +197,6 @@ import NumberField from '@/components/NumberField.vue';
 import TotalField from '@/components/TotalField.vue';
 import { SELECTIONS } from '@/components/constants';
 import Datepicker from 'vue-bulma-datepicker';
-import baseFile from '@/components/paymentfile';
 
 export default {
   name: 'HomeView',
