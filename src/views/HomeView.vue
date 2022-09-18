@@ -238,7 +238,7 @@ export default {
       return totalLessFees < 0 ? 0 : totalLessFees;
     },
     invoiceLessItf() {
-      const totalLessItf = this.totalLessOtherFeesChargesClaimedAmount - this.itfIncome;
+      const totalLessItf = this.totalLessOtherFeesChargesClaimedAmount - (this.itfIncome || 0);
       return totalLessItf < 0 ? 0 : totalLessItf;
     },
     maxGovContribution() {
