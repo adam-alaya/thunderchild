@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <OptionButtons @OptSelection="OptSelectionChange" class="is-pulled-left"/>
+    <OptionButtons @optSelection="optSelectionChange" class="is-pulled-left"/>
     <div class="columns mt-0">
       <div class="column is-one-third is-vcentered">
         <label for="datepicker" class="is-half is-size-6 is-pulled-left">
@@ -114,6 +114,8 @@
     </div>
     <div class="columns">
       <Shortfall
+        :adjusted-price="adjustedPrice"
+        :client-option="optSelection"
         :total-less-other-fees-charges-claimed-amount="totalLessOtherFeesChargesClaimedAmount"
         :invoice-less-itf="invoiceLessItf"
       />
@@ -186,7 +188,7 @@ export default {
   data() {
     return {
       SELECTIONS,
-      OptSelection: SELECTIONS.OPT_OUT,
+      optSelection: SELECTIONS.OPT_OUT,
       clientName: '',
       clientId: null,
       // Opening Balances
@@ -204,11 +206,15 @@ export default {
     };
   },
   methods: {
-    OptSelectionChange(option) {
-      this.OptSelection = option;
+    optSelectionChange(option) {
+      this.optSelection = option;
     },
   },
   computed: {
+    adjustedPrice() {
+      return this.totalLessOtherFeesChargesClaimedAmount < this.commonwealthBalance ? 0
+        : this.totalLessOtherFeesChargesClaimedAmount - this.commonwealthBalance;
+    },
     openingBalancesTotal() {
       return (
         (this.commonwealthBalance || 0)
@@ -234,6 +240,8 @@ export default {
       return careLessbdf < 0 ? 0 : careLessbdf;
     },
     totalLessOtherFeesChargesClaimedAmount() {
+      if (this.optSelection === SELECTIONS.OPT_IN) return this.adjustedPrice;
+
       const totalLessFees = (this.totalLessBdfClaimedAmount - this.feeChargesIncome) || 0;
       return totalLessFees < 0 ? 0 : totalLessFees;
     },
@@ -242,6 +250,9 @@ export default {
       return totalLessItf < 0 ? 0 : totalLessItf;
     },
     maxGovContribution() {
+      if (this.optSelection === SELECTIONS.OPT_IN) {
+        return this.subsidyIncome + this.supplementIncome;
+      }
       return (
         (this.hcaBalance || 0)
         + (this.subsidyIncome || 0)
@@ -261,7 +272,12 @@ export default {
     },
     totalLessCwUnspent() {
       const commonwealthOpening = this.commonwealthBalance || 0;
-      return Math.min(commonwealthOpening, this.totalLessCrUnspent);
+      const adjustedValue = this.totalLessCrUnspent < commonwealthOpening ? 0
+        : this.totalLessCrUnspent - commonwealthOpening;
+      const adjustedCwUnspent = this.optSelection === SELECTIONS.OPT_IN
+        ? adjustedValue : this.totalLessCrUnspent;
+
+      return Math.min(commonwealthOpening, adjustedCwUnspent);
     },
     totalLessPre2015() {
       const tot = (

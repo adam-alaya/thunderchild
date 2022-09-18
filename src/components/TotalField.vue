@@ -16,7 +16,7 @@
 <script>
 
 export default {
-  name: 'InputField',
+  name: 'TotalField',
   props: {
     label: {
       type: String,
