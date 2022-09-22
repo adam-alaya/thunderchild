@@ -212,8 +212,9 @@ export default {
   },
   computed: {
     adjustedPrice() {
-      return this.totalLessOtherFeesChargesClaimedAmount < this.commonwealthBalance ? 0
-        : this.totalLessOtherFeesChargesClaimedAmount - this.commonwealthBalance;
+      const commonwealthBalance = this.commonwealthBalance || 0;
+      return this.totalLessBdfClaimedAmount < commonwealthBalance ? 0
+        : this.totalLessBdfClaimedAmount - commonwealthBalance;
     },
     openingBalancesTotal() {
       return (
@@ -240,7 +241,9 @@ export default {
       return careLessbdf < 0 ? 0 : careLessbdf;
     },
     totalLessOtherFeesChargesClaimedAmount() {
-      if (this.optSelection === SELECTIONS.OPT_IN) return this.adjustedPrice;
+      if (this.optSelection === SELECTIONS.OPT_IN) {
+        return this.adjustedPrice - (this.feeChargesIncome || 0);
+      }
 
       const totalLessFees = (this.totalLessBdfClaimedAmount - this.feeChargesIncome) || 0;
       return totalLessFees < 0 ? 0 : totalLessFees;
