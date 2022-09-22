@@ -1,13 +1,19 @@
 <template>
   <div class="home">
-    <OptionButtons @optSelection="optSelectionChange" class="is-pulled-left"/>
+    <div class="mt-0 columns">
+      <OptionButtons @optSelection="optSelectionChange" class="is-pulled-right"/>
+      <button class="button is-pulled-right is-normal is-dark"
+              @click.prevent="downloadPaymentFile">
+        Download</button>
+    </div>
+
     <div class="columns mt-0">
       <div class="column is-one-third is-vcentered">
         <label for="datepicker" class="is-half is-size-6 is-pulled-left">
           Claim Date
         </label>
-        <datepicker name="datepicker" class="is-pulled-left is-half is-small"
-          :config="{ dateFormat: 'd-m-Y', static: true }"></datepicker>
+        <Datepicker v-model="claimDate" class="is-half is-size-6 is-pulled-right"
+        monthPicker></Datepicker>
       </div>
       <div class="column is-one-third">
         <InputField
@@ -164,12 +170,14 @@ import InputField from '@/components/InputField.vue';
 import NumberInputField from '@/components/NumberInputField.vue';
 import TotalField from '@/components/TotalField.vue';
 import { SELECTIONS } from '@/components/constants';
-import Datepicker from 'vue-bulma-datepicker';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 import Shortfall from '@/components/Shortfall.vue';
 import Payment from '@/components/Payment.vue';
 import Reconciliation from '@/components/Reconcilliation.vue';
 import ClosingBalances from '@/components/ClosingBalances.vue';
 import ClaimedAmounts from '@/components/ClaimedAmounts.vue';
+import baseFile from '@/components/paymentfile';
 
 export default {
   name: 'HomeView',
@@ -191,6 +199,7 @@ export default {
       optSelection: SELECTIONS.OPT_OUT,
       clientName: '',
       clientId: null,
+      claimDate: '',
       // Opening Balances
       commonwealthBalance: null,
       careRecipientBalance: null,
@@ -208,6 +217,29 @@ export default {
   methods: {
     optSelectionChange(option) {
       this.optSelection = option;
+    },
+    downloadPaymentFile() {
+      const month = this.claimDate.month ? `${this.claimDate.month + 1}`.padStart(2, '0') : null;
+      const monthYear = this.claimDate ? `${month}${this.claimDate.year}` : '';
+      console.log(monthYear);
+      const data = {
+        hca: this.homeCareClosing,
+        claimEntitlement: this.paymentDetermination,
+        previousHca: this.hcaBalance,
+        maxContribution: this.maxGovContribution,
+        invoiceAmount: this.totalLessOtherFeesChargesClaimedAmount,
+        cwUnspent: this.cwUnspentClosing,
+        itfReduction: this.itfIncome,
+        paymentDetermination: this.paymentDetermination,
+        changeInHca: this.homeCareClosing - this.hcaBalance,
+        shortfall: this.invoiceLessItf,
+      };
+      const file = baseFile(this.clientName, this.clientId, monthYear, data);
+      const blob = new Blob([file], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.download = `${this.clientName}${this.claimDate} Payment File.xml`;
+      link.href = window.URL.createObjectURL(blob);
+      link.click();
     },
   },
   computed: {
