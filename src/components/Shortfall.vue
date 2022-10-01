@@ -1,18 +1,23 @@
 <template>
-  <div class="is-one-quarter column">
+  <div class="section">
     <div class="mb-5" v-if="clientOption === SELECTIONS.OPT_IN">
-      <div class="is-size-4 mb-1">Adjusted Price</div>
+      <h1 class="mb-1">Adjusted Price</h1>
       <NumberField label="Invoice Amount" :value="totalLessOtherFeesChargesClaimedAmount" />
       <NumberField label="LESS CW Unspent Funds" :value="adjustedPrice" />
-      <TotalField label="Adjusted Price" :value="adjustedPrice"  />
+      <TotalField class="total-field" label="Adjusted Price" :value="adjustedPrice"  />
     </div>
     <div>
-      <div class="is-size-4 mb-1">Shortfall</div>
+      <h1 class="mb-1">Shortfall</h1>
       <NumberField
         :label="clientOption === SELECTIONS.OPT_OUT ? 'Invoice Amount' : 'Adjusted Price'"
         :value="totalLessOtherFeesChargesClaimedAmount"
       />
       <NumberField label="LESS ITF" :value="invoiceLessItf" />
+      <TotalField
+        label="Shortfall"
+        :value="invoiceLessItf"
+        class="total-field"
+      />
     </div>
   </div>
 </template>

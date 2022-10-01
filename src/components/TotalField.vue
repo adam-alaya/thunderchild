@@ -1,12 +1,12 @@
 <template>
-  <div class="control columns is-vcentered horizontal-rule m-0 pt-0 pb-0">
+  <div class="control is-vcentered">
     <span
-      class="is-size-6 column mr-2 is-pulled-left is-four-fifths"
+      class="column is-pulled-left is-four-fifths"
     >
         {{ label }}
     </span>
     <span
-      class="input is-small is-pulled-right is-one-fifth"
+      class="is-pulled-right is-one-fifth pt-3 pr-5"
     >
         {{ value }}
     </span>
@@ -30,12 +30,3 @@ export default {
   methods: {},
 };
 </script>
-<style scoped>
-.horizontal-rule {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-}
-.input {
-  border: 0;
-}
-</style>

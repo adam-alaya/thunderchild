@@ -1,163 +1,128 @@
 <template>
-  <div class="home">
-    <div class="mt-0 columns">
-      <OptionButtons @optSelection="optSelectionChange" class="is-pulled-right"/>
-      <button class="button is-pulled-right is-normal is-dark"
-              @click.prevent="downloadPaymentFile">
-        Download</button>
+  <div class="home columns">
+    <!--    <div class="mt-0 columns">-->
+    <!--      <OptionButtons @optSelection="optSelectionChange" class="is-pulled-right"/>-->
+    <!--    </div>-->
+    <div class="column is-one-fifth">
+      <OptionsBox
+      @download="downloadPaymentFile"
+      @optSelector="optSelectionChange"
+      />
     </div>
+    <div class="column is-four-fifths">
+      <div class="columns">
+        <div class="column is-one-third section">
+          <h1 class="mb-1">Opening Balances</h1>
+          <NumberInputField
+            @input="(ev)=> this.commonwealthBalance = parseFloat(ev.target.value)"
+            label="Commonwealth Balance"
+            :value="commonwealthBalance"
+          />
+          <NumberInputField
+            @input="(ev)=> this.careRecipientBalance = parseFloat(ev.target.value)"
+            label="Care Recipient Balance"
+            :value="careRecipientBalance"
+          />
+          <NumberInputField
+            @input="(ev)=> this.pre2015Balance = parseFloat(ev.target.value)"
+            label="Pre 2015"
+            :value="pre2015Balance"
+          />
+          <NumberInputField
+            label="Home Care Account Balance"
+            :value="hcaBalance"
+            @input="(ev)=> this.hcaBalance = parseFloat(ev.target.value)"
+          />
+          <TotalField
+            class="total-field"
+            label="Opening Balances Total"
+            :value="openingBalancesTotal"
+          />
 
-    <div class="columns mt-0">
-      <div class="column is-one-third is-vcentered">
-        <label for="datepicker" class="is-half is-size-6 is-pulled-left">
-          Claim Date
-        </label>
-        <Datepicker v-model="claimDate" class="is-half is-size-6 is-pulled-right"
-        monthPicker></Datepicker>
+        </div>
+        <div class="column is-one-third section">
+          <h1>Package Incomes</h1>
+          <NumberInputField
+            label="Subsidy"
+            :value="subsidyIncome"
+            @input="(ev)=> this.subsidyIncome = parseFloat(ev.target.value)"
+          />
+          <NumberInputField
+            label="Supplements"
+            :value="supplementIncome"
+            @input="(ev)=> this.supplementIncome = parseFloat(ev.target.value)"
+          />
+          <NumberInputField
+            label="BDF"
+            :value="bdfIncome"
+            @input="(ev)=> this.bdfIncome = parseFloat(ev.target.value)"
+          />
+          <NumberInputField
+            label="ITF"
+            :value="itfIncome"
+            @input="(ev)=> this.itfIncome = parseFloat(ev.target.value)"
+          />
+          <NumberInputField
+            label="Other Fees and Charges"
+            :value="feeChargesIncome"
+            @input="(ev)=> this.feeChargesIncome = parseFloat(ev.target.value)"
+          />
+          <TotalField
+            class="total-field"
+            label="Package Income Total"
+            :value="packageIncomeTotal"
+          />
+        </div>
+        <div class="column is-one-third section">
+          <h1 class="mb-1">Expenses</h1>
+          <NumberInputField
+            label="Care and Services Total"
+            :value="careServicesTotal"
+            @input="(ev)=> this.careServicesTotal = parseFloat(ev.target.value)"
+          />
+          <TotalField class="total-field" label="Expenses Total" :value="expensesTotal"/>
+
+        </div>
       </div>
-      <div class="column is-one-third">
-        <InputField
-          label="Client Name"
-          wide-input
-          is-text
-          placeholder="Jessie James"
-          :value="clientName"
-          @input="(ev)=> this.clientName = ev.target.value"
+      <div class="columns">
+        <ClaimedAmounts
+          class="column is-one-third"
+          :expenses-total="expensesTotal"
+          :total-less-other-fees-charges-claimed-amount="totalLessOtherFeesChargesClaimedAmount"
+          :total-less-bdf-claimed-amount="totalLessBdfClaimedAmount"
         />
-      </div>
-      <div class="column is-one-third">
-        <NumberInputField
-          label="Client ID"
-          wide-input
-          @input="(ev)=> this.clientId = parseFloat(ev.target.value)"
-          placeholder="123456789"
-          :value="clientId"
+        <Shortfall
+          class="column is-one-third"
+          :adjusted-price="adjustedPrice"
+          :client-option="optSelection"
+          :total-less-other-fees-charges-claimed-amount="totalLessOtherFeesChargesClaimedAmount"
+          :invoice-less-itf="invoiceLessItf"
         />
-      </div>
-    </div>
-    <div class="columns">
-      <div class="column is-one-quarter">
-        <div class="is-size-4 mb-1">Opening Balances</div>
-        <NumberInputField
-          @input="(ev)=> this.commonwealthBalance = parseFloat(ev.target.value)"
-          label="Commonwealth Balance"
-          :value="commonwealthBalance"
-        />
-        <NumberInputField
-          @input="(ev)=> this.careRecipientBalance = parseFloat(ev.target.value)"
-          label="Care Recipient Balance"
-          :value="careRecipientBalance"
-        />
-        <NumberInputField
-          @input="(ev)=> this.pre2015Balance = parseFloat(ev.target.value)"
-          label="Pre 2015"
-          :value="pre2015Balance"
-        />
-        <NumberInputField
-          label="Home Care Account Balance"
-          :value="hcaBalance"
-          @input="(ev)=> this.hcaBalance = parseFloat(ev.target.value)"
-        />
-      </div>
-      <div class="column is-one-quarter">
-        <div class="is-size-4">Package Incomes</div>
-        <NumberInputField
-          label="Subsidy"
-          :value="subsidyIncome"
-          @input="(ev)=> this.subsidyIncome = parseFloat(ev.target.value)"
-        />
-        <NumberInputField
-          label="Supplements"
-          :value="supplementIncome"
-          @input="(ev)=> this.supplementIncome = parseFloat(ev.target.value)"
-        />
-        <NumberInputField
-          label="BDF"
-          :value="bdfIncome"
-          @input="(ev)=> this.bdfIncome = parseFloat(ev.target.value)"
-        />
-        <NumberInputField
-          label="ITF"
-          :value="itfIncome"
-          @input="(ev)=> this.itfIncome = parseFloat(ev.target.value)"
-        />
-        <NumberInputField
-          label="Other Fees and Charges"
-          :value="feeChargesIncome"
-          @input="(ev)=> this.feeChargesIncome = parseFloat(ev.target.value)"
+        <Payment
+          class="column is-one-third"
+          :invoice-less-itf="invoiceLessItf"
+          :max-gov-contribution="maxGovContribution"
+          :payment-determination="paymentDetermination"
         />
       </div>
-      <div class="column is-one-quarter">
-        <div class="is-size-4 mb-1">Expenses</div>
-        <NumberInputField
-          label="Care and Services Total"
-          :value="careServicesTotal"
-          @input="(ev)=> this.careServicesTotal = parseFloat(ev.target.value)"
+      <div class="columns column">
+        <Reconciliation
+          class="column is-one-third"
+          :payment-determination="paymentDetermination"
+          :expenses-total="expensesTotal"
+          :total-less-cr-unspent="totalLessCrUnspent"
+          :total-less-cw-unspent="totalLessCwUnspent"
+          :total-less-pre2015="totalLessPre2015"
         />
-      </div>
-      <ClaimedAmounts
-        :expenses-total="expensesTotal"
-        :total-less-other-fees-charges-claimed-amount="totalLessOtherFeesChargesClaimedAmount"
-        :total-less-bdf-claimed-amount="totalLessBdfClaimedAmount"
-      />
-      </div>
-    <div class="columns">
-      <div class="is-one-quarter column">
-        <TotalField label="Opening Balances Total" :value="openingBalancesTotal"
+        <ClosingBalances
+          class="column is-one-third"
+          :cr-unspent-closing="crUnspentClosing"
+          :cw-unspent-closing="cwUnspentClosing"
+          :home-care-closing="homeCareClosing"
+          :overspend-closing="overspendClosing"
+          :pre2015-unspent-closing="pre2015UnspentClosing"
+          :total-closing="totalClosing"
         />
-      </div>
-      <div class="is-one-quarter column">
-        <TotalField label="Package Income Total" :value="packageIncomeTotal"
-        />
-      </div>
-      <div class="is-one-quarter column">
-        <TotalField label="Expenses Total" :value="expensesTotal"/>
-      </div>
-      <div class="is-one-quarter column">
-        <TotalField label="Invoice Amount" :value="totalLessOtherFeesChargesClaimedAmount"
-        />
-      </div>
-    </div>
-    <div class="columns">
-      <Shortfall
-        :adjusted-price="adjustedPrice"
-        :client-option="optSelection"
-        :total-less-other-fees-charges-claimed-amount="totalLessOtherFeesChargesClaimedAmount"
-        :invoice-less-itf="invoiceLessItf"
-      />
-      <Payment
-        :invoice-less-itf="invoiceLessItf"
-        :max-gov-contribution="maxGovContribution"
-        :payment-determination="paymentDetermination"
-      />
-      <Reconciliation
-        :payment-determination="paymentDetermination"
-        :expenses-total="expensesTotal"
-        :total-less-cr-unspent="totalLessCrUnspent"
-        :total-less-cw-unspent="totalLessCwUnspent"
-        :total-less-pre2015="totalLessPre2015"
-      />
-      <ClosingBalances
-        :cr-unspent-closing="crUnspentClosing"
-        :cw-unspent-closing="cwUnspentClosing"
-        :home-care-closing="homeCareClosing"
-        :overspend-closing="overspendClosing"
-        :pre2015-unspent-closing="pre2015UnspentClosing"
-      />
-    </div>
-    <div class="columns">
-      <div class="is-one-quarter column">
-        <TotalField label="Shortfall" :value="invoiceLessItf"/>
-      </div>
-      <div class="is-one-quarter column">
-        <TotalField label="Payment Determination" :value="paymentDetermination"
-        />
-      </div>
-      <div class="is-one-quarter column">
-        <TotalField label="Balance Owing" :value="totalOwing" />
-      </div>
-      <div class="is-one-quarter column">
-        <TotalField label="Total Unspent Funds" :value="totalClosing" />
       </div>
     </div>
   </div>
@@ -165,12 +130,11 @@
 
 <script>
 // @ is an alias to /src
-import OptionButtons from '@/components/OptButtons.vue';
-import InputField from '@/components/InputField.vue';
+import OptionsBox from '@/components/OptionsBox.vue';
 import NumberInputField from '@/components/NumberInputField.vue';
 import TotalField from '@/components/TotalField.vue';
 import { SELECTIONS } from '@/components/constants';
-import Datepicker from '@vuepic/vue-datepicker';
+
 import '@vuepic/vue-datepicker/dist/main.css';
 import Shortfall from '@/components/Shortfall.vue';
 import Payment from '@/components/Payment.vue';
@@ -185,11 +149,9 @@ export default {
     ClaimedAmounts,
     ClosingBalances,
     Reconciliation,
-    OptionButtons,
-    InputField,
+    OptionsBox,
     NumberInputField,
     TotalField,
-    Datepicker,
     Shortfall,
     Payment,
   },
@@ -197,9 +159,6 @@ export default {
     return {
       SELECTIONS,
       optSelection: SELECTIONS.OPT_OUT,
-      clientName: '',
-      clientId: null,
-      claimDate: '',
       // Opening Balances
       commonwealthBalance: null,
       careRecipientBalance: null,
@@ -218,10 +177,11 @@ export default {
     optSelectionChange(option) {
       this.optSelection = option;
     },
-    downloadPaymentFile() {
-      const month = this.claimDate.month ? `${this.claimDate.month + 1}`.padStart(2, '0') : null;
-      const monthYear = this.claimDate ? `${month}${this.claimDate.year}` : '';
-      console.log(monthYear);
+    downloadPaymentFile(downloadData) {
+      debugger;
+      const [year, month] = downloadData.claimDate ? downloadData.claimDate.split('-') : ['', ''];
+      const monthYear = `${month}${year}`;
+      const client = downloadData.clientName ?? '';
       const data = {
         hca: this.homeCareClosing,
         claimEntitlement: this.paymentDetermination,
@@ -234,10 +194,10 @@ export default {
         changeInHca: this.homeCareClosing - this.hcaBalance,
         shortfall: this.invoiceLessItf,
       };
-      const file = baseFile(this.clientName, this.clientId, monthYear, data);
+      const file = baseFile(client, downloadData.clientId, monthYear, data);
       const blob = new Blob([file], { type: 'text/plain' });
       const link = document.createElement('a');
-      link.download = `${this.clientName}${this.claimDate} Payment File.xml`;
+      link.download = `${client} ${downloadData.claimDate} Payment File.xml`;
       link.href = window.URL.createObjectURL(blob);
       link.click();
     },
@@ -371,19 +331,89 @@ export default {
   },
 };
 </script>
-<style>
-.home {
-  padding-left: 5%;
-  padding-right: 5%;
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@1,600&display=swap');
+// For Testing
+@mixin random-bgr() {
+  background: rgb(random(255), random(255), random(255));
 }
+
+//.column {
+//  @for $i from 0 to 6 {
+//    &:nth-child(#{$i}) {
+//      @include random-bgr();
+//    }
+//  }
+//}
+
+#app {
+  height: 100vh;
+  background-color: #D9D9D9;
+}
+
+header {
+  background-color: #fff;
+  width: 100vw;
+  padding: 20px !important;
+}
+
+.home {
+  padding: 0 5%;
+  background-color: #D9D9D9;
+  padding-top: 20px !important;
+}
+
 .column {
   padding-top: 0;
   padding-bottom: 0;
 }
+
 label.column {
   padding: 0.4em;
 }
+
 .columns:not(:last-child) {
   margin-bottom: 0;
+}
+
+.section {
+  background-color: #fff;
+  border-radius: 8px;
+  margin: 10px 10px;
+  padding: 0 !important;
+  height: 300px;
+  box-shadow: 2px 2px 12px 2px rgb(30 30 30 / 0.2);
+  position: relative;
+  &.options {
+    height: 550px;
+  }
+  * {
+    text-align: left;
+  }
+
+  h1 {
+    padding: 10px !important;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: left;
+    font-family: 'Fira Sans', sans-serif;
+  }
+
+  .total-field {
+    padding: 1px !important;
+    background-color: #D9D9D9;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .number-field {
+    padding: 3px 10px !important;
+
+    input {
+      border: none;
+    }
+  }
 }
 </style>

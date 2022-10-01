@@ -1,21 +1,25 @@
 <template>
-  <div class="is-one-quarter column">
-    <div class="is-size-4 mb-1">Reconciliation</div>
+  <div class="section">
+    <h1 class="mb-1">Reconciliation</h1>
     <NumberField label="Total AR" :value="expensesTotal" />
     <NumberField label="Payment Determination" :value="paymentDetermination" />
     <NumberField label="Deduct CR Unspent" :value="totalLessCrUnspent" />
     <NumberField label="Deduct CW Unspent" :value="totalLessCwUnspent" />
     <NumberField label="Deduct Pre 2015 Unspent" :value="totalLessPre2015" />
+    <TotalField class="total-field" label="Balance Owing" :value="totalOwing" />
+
   </div>
 </template>
 <script>
 import NumberField from '@/components/NumberField.vue';
+import TotalField from '@/components/TotalField.vue';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Reconciliation',
   components: {
     NumberField,
+    TotalField,
   },
   props: {
     totalLessPre2015: {

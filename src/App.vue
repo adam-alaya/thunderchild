@@ -2,6 +2,9 @@
 <!--  <nav>-->
 <!--    <router-link to="/">Home</router-link>-->
 <!--  </nav>-->
+  <header>
+    ThunderChild
+  </header>
   <router-view/>
 </template>
 

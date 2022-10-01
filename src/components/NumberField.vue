@@ -1,12 +1,12 @@
 <template>
-  <div class="control columns is-vcentered m-0 p-0">
+  <div class="number-field control is-vcentered m-0 p-0">
     <span
-      class="is-size-6 column mr-2 is-pulled-left is-four-fifths p-0"
+      class="column mr-2 is-pulled-left is-four-fifths p-0"
     >
         {{ label }}
     </span>
     <span
-      class="input is-pulled-right is-one-fifth is-size-6 is-small p-0 m-0 "
+      class="is-pulled-right is-one-fifth p-0 m-0 "
     >
         {{ value }}
     </span>

@@ -6,43 +6,32 @@
       :class="{'is-four-fifths': !wideInput, 'is-half': wideInput}">
         {{ label }}
     </label>
-    <input
-      class="input is-small is-pulled-right p-1 m-0"
-      :class="{'is-four-fifths': !wideInput, 'is-half': wideInput}"
-      type="number"
-      :placeholder="placeholder"
+    <CustomInput
+      class="is-pulled-right p-0 m-0 is-four-fifths"
       id="input"
       name="input"
       @input="$emit('update:value', $event.target.value)"
       :value="value"
-    >
+      />
   </div>
 </template>
 
 <script>
+import CustomInput from '@/components/CustomInput.vue';
 
 export default {
   name: 'NumberInputField',
+  components: {
+    CustomInput,
+  },
   props: {
     label: {
       type: String,
       required: true,
     },
     value: {
-      type: Number,
+      type: [Number, String],
       required: true,
-    },
-    isText: {
-      type: Boolean,
-      default: false,
-    },
-    wideInput: {
-      type: Boolean,
-      default: false,
-    },
-    placeholder: {
-      type: String,
-      default: null,
     },
   },
 };
