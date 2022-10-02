@@ -125,6 +125,7 @@ $darkcolor: #444;
     box-shadow: 2px 2px 10px 3px rgba(0,0,0,0.3);
     background-color: #37c0a3;
     border:2px solid #31BFA0;
+    font-size: 1.1em;
   }
 }
 
