@@ -7,7 +7,7 @@
         {{ label }}
     </label>
     <CustomInput
-      class="is-pulled-right p-0 m-0 is-four-fifths"
+      class="is-pulled-right p-0 pr-1 m-0 is-four-fifths"
       id="input"
       name="input"
       @input="$emit('update:value', $event.target.value)"

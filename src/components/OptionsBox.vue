@@ -6,10 +6,9 @@
         <input
           type="radio"
           id="simple"
-          name="typeSelector"
-          value="simple"
-          @change="$emit('typeSelector', 'simple')"
-          checked
+          v-model="typeSelector"
+          :value=TYPE.SIMPLE
+          @change="$emit('typeSelector', TYPE.SIMPLE)"
         />
         <label for="simple">Simple</label>
       </div>
@@ -17,37 +16,40 @@
         <input
           type="radio"
           id="complete"
-          name="typeSelector"
-          value="complete"
-          @change="$emit('typeSelector', 'complete')"
+          v-model="typeSelector"
+          :value=TYPE.COMPLETE
+          @change="$emit('typeSelector', TYPE.COMPLETE)"
+          checked
         />
         <label for="complete">Complete</label>
       </div>
     </form>
-    <hr />
-    <form>
-      <div class="radiobtn">
-        <input
-          type="radio"
-          id="optIn"
-          name="optSelector"
-          value="optIn"
-          @change="$emit('optSelector', SELECTIONS.OPT_IN)"
-        />
-        <label for="optIn">Opt In</label>
-      </div>
-      <div class="radiobtn">
-        <input
-          type="radio"
-          id="optOut"
-          name="optSelector"
-          value="optOut"
-          @change="$emit('optSelector', SELECTIONS.OPT_OUT)"
-          checked
-        />
-        <label for="optOut">Opt Out</label>
-      </div>
-    </form>
+    <div v-if="typeSelector===TYPE.COMPLETE">
+      <hr />
+      <form>
+        <div class="radiobtn">
+          <input
+            type="radio"
+            id="optIn"
+            name="optSelector"
+            value="optIn"
+            @change="$emit('optSelector', SELECTIONS.OPT_IN)"
+          />
+          <label for="optIn">Opt In</label>
+        </div>
+        <div class="radiobtn">
+          <input
+            type="radio"
+            id="optOut"
+            name="optSelector"
+            value="optOut"
+            @change="$emit('optSelector', SELECTIONS.OPT_OUT)"
+            checked
+          />
+          <label for="optOut">Opt Out</label>
+        </div>
+      </form>
+    </div>
     <hr />
     <CustomInput
       label="Client ID"
@@ -76,7 +78,7 @@
 <script>
 
 import CustomInput from '@/components/CustomInput.vue';
-import { SELECTIONS } from '@/components/constants';
+import { SELECTIONS, TYPE } from '@/components/constants';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -84,13 +86,12 @@ export default {
   components: {
     CustomInput,
   },
-  props: {
-
-  },
+  props: {},
   data() {
     return {
       SELECTIONS,
-      type: 'simple',
+      TYPE,
+      typeSelector: TYPE.COMPLETE,
       data: {
         claimDate: null,
         clientName: null,
@@ -126,7 +127,6 @@ hr {
 form {
   max-width: 250px;
   position: relative;
-  //margin: 50px auto 0;
   font-size: 15px;
 }
 .radiobtn {
@@ -146,11 +146,12 @@ form {
       content: "";
       position: absolute;
       right: 11px;
-      top: 11px;
-      width: 20px;
-      height: 20px;
-      border-radius: 3px;
+      top: 0;
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
       background: lighten($accentcolor, 15%);
+      border: 1px solid $darkcolor;
     }
     &:before {
       background: transparent;
@@ -180,8 +181,10 @@ form {
         background: $accentcolor;
       }
       &:before {
-        width: 20px;
-        height: 20px;
+        top: 3px;
+        right: 14px;
+        width: 17px;
+        height: 17px;
       }
     }
   }

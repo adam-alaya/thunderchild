@@ -3,20 +3,34 @@
 <!--    <router-link to="/">Home</router-link>-->
 <!--  </nav>-->
   <header>
-    ThunderChild
+    <div class="logo">
+      <span class="logo-left">Thunder</span><span class="logo-right">Child</span>
+    </div>
   </header>
   <router-view/>
 </template>
 
 <style lang="scss">
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@1,600&display=swap');
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 
+.logo {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 2em;
+  .logo-left {
+    color: #483D8B;
+  }
+  .logo-right {
+    color: #31BFA0;
+  }
+}
 nav {
   padding: 30px;
 

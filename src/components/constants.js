@@ -3,4 +3,7 @@ export const SELECTIONS = {
   OPT_OUT: 'opt_out',
 };
 
-export const name = 'adam';
+export const TYPE = {
+  SIMPLE: 'simple',
+  COMPLETE: 'complete',
+};
