@@ -30,20 +30,20 @@ const baseFile = (clientName, clientId, monthYear, data) => (
       <careRecipientID>${clientId}</careRecipientID>
       <careRecipientSurname/>
       <careRecipientGivenName>${clientName}</careRecipientGivenName>
-      <totalAmountDue>10.00</totalAmountDue>
-      <homeCareAccountBalance>${data.hca}</homeCareAccountBalance>
+      <totalAmountDue>${data.claimPrice || 0}</totalAmountDue>
+      <homeCareAccountBalance>${data.hca || 0}</homeCareAccountBalance>
       <payment>
         <entitlementType>Current</entitlementType>
         <entitlementMonth>${monthYear}</entitlementMonth>
         <claimEntitlement>${data.claimEntitlement}</claimEntitlement>
-        <previousHomeCareAccountBalance>${data.previousHca}</previousHomeCareAccountBalance>
-        <maximumContribution>${data.maxContribution}</maximumContribution>
-        <invoiceAmount>${data.invoiceAmount}</invoiceAmount>
-        <cwuaunspentAmount>${data.cwUnspent}</cwuaunspentAmount>
-        <itfReductionAmount>${data.itfReduction}</itfReductionAmount>
-        <shortfallAmount>${data.shortfall}</shortfallAmount>
+        <previousHomeCareAccountBalance>${data.previousHca || 0}</previousHomeCareAccountBalance>
+        <maximumContribution>${data.maxContribution || 0}</maximumContribution>
+        <invoiceAmount>${data.invoiceAmount || 0}</invoiceAmount>
+        <cwuaunspentAmount>${data.cwUnspent || 0}</cwuaunspentAmount>
+        <itfReductionAmount>${data.itfReduction || 0}</itfReductionAmount>
+        <shortfallAmount>${data.shortfall || 0}</shortfallAmount>
         <paymentDetermination>${data.paymentDetermination}</paymentDetermination>
-        <changeInHomeCareAccount>${data.changeInHca}</changeInHomeCareAccount>
+        <changeInHomeCareAccount>${data.claimPrice}</changeInHomeCareAccount>
       </payment>
     </careRecipientPayment>
   </IPApaymentdetails>
