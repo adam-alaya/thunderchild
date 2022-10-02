@@ -74,7 +74,7 @@ input[type="date"]:not(.has-value):before{
 .control input:focus ~ label, input:valid ~ label  {
   top: 0px;
   transform: scale(0.94) translateX(-2px);
-  color: #4485c5;
+  color: #333;
 }
 .control .line {
   position: absolute;
@@ -82,7 +82,7 @@ input[type="date"]:not(.has-value):before{
   bottom: 0;
   width: 100%;
   height: 3px;
-  background: #4485c5;
+  background: #31BFA0;
   left: -999px;
   transition: .25s;
   opacity: 0;
