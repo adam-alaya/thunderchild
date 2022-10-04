@@ -9,18 +9,40 @@
           </div>
         </header>
         <div>
-          <div class="inputs">
-            <CustomInput label="Name" value="" isText class="text-input"/>
-            <CustomInput label="Slack Username" value="" isText class="text-input"/>
-            <CustomInput label="Bug Description" value="" isTextarea class="text-input"/>
-          </div>
-
+          <form class="inputs" id="bug-form" ref="bug-form">
+            <CustomInput
+              label="Name"
+              input-id="user_name"
+              isText
+              class="text-input"
+              :value="user_name"
+              @input="(ev)=> this.user_name = ev.target.value"
+            />
+            <CustomInput
+              label="Slack Username"
+              input-id="slack_username"
+              isText
+              class="text-input"
+              :value="slack_username"
+              @input="(ev)=> this.slack_username = ev.target.value"
+            />
+            <CustomInput
+              label="Bug Description"
+              input-id="message"
+              isTextarea
+              class="text-input"
+              :value="message"
+              @input="(ev)=> this.message = ev.target.value"
+            />
+            <button
+              class="button feedback-button"
+              @click.prevent="sendEmail"
+              type="submit"
+            >
+              Send
+            </button>
+          </form>
         </div>
-        <button
-          class="button feedback-button"
-          @click.prevent="() => {}">
-          Send
-        </button>
         <button
           class="modal-close is-large"
           aria-label="close"
@@ -32,6 +54,7 @@
 </template>
 <script>
 import CustomInput from '@/components/CustomInput.vue';
+import emailjs from 'emailjs-com';
 
 export default {
   name: 'Bug-Modal',
@@ -42,6 +65,32 @@ export default {
     isActive: {
       type: Boolean,
       default: false,
+    },
+  },
+  data() {
+    return {
+      slack_username: '',
+      user_name: '',
+      message: '',
+    };
+  },
+  methods: {
+    sendEmail() {
+      debugger;
+      try {
+        emailjs.sendForm(
+          process.env.VUE_APP_EMAIL_SERVICE_ID,
+          process.env.VUE_APP_EMAIL_TEMPLATE_ID,
+          this.$refs['bug-form'],
+          process.env.VUE_APP_EMAIL_USER_ID,
+        );
+      } catch (error) {
+        console.log({ error });
+      }
+      // Reset form field
+      // this.user_name = '';
+      // this.slack_username = '';
+      // this.message = '';
     },
   },
 };

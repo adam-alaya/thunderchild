@@ -2,8 +2,8 @@
   <div class="control is-vcentered">
       <input
         v-if="!isDate && !isTextarea"
-        name="input"
-        id="input"
+        :name="inputId"
+        :id="inputId"
         :type="isText ? 'text' : 'number'"
         @input="$emit('input', $event.target.value)"
         :value="value"
@@ -11,27 +11,27 @@
       >
       <div class="text m-0" v-else-if="isTextarea">
         <textarea
-          id="input-text"
-          name="input-text"
+          :id="inputId"
+          :name="inputId"
           rows="10"
           cols="30"
           @input="$emit('input', $event.target.value)"
           :value="value"
           required
         />
-        <label for="input-text">{{ label }}</label>
+        <label :for="inputId">{{ label }}</label>
       </div>
       <input
         v-else
-        name="input"
-        id="input"
+        :name="inputId"
+        :id="inputId"
         type="text"
         @input="$emit('input', $event.target.value)"
         :value="value"
         required
         onfocus="this.type='month'"
       >
-      <label v-if="!isTextarea" for="input">{{ label }}</label>
+      <label v-if="!isTextarea" :for="inputId">{{ label }}</label>
 
       <span class="line"></span>
   </div>
@@ -57,6 +57,10 @@ export default {
     isTextarea: {
       type: Boolean,
       default: false,
+    },
+    inputId: {
+      type: String,
+      default: 'input',
     },
     isDate: {
       type: Boolean,
