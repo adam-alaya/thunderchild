@@ -1,5 +1,7 @@
 <template>
-  <div class="home columns">
+  <div class="home">
+    <div class="columns">
+    <BugModal :isActive="modalActive" @closeModal="toggleModal"/>
     <div class="column is-one-fifth">
       <OptionsBox
         :typeSelection="typeSelection"
@@ -8,14 +10,21 @@
         @optSelector="optSelectionChange"
       />
     </div>
-    <div class="column is-four-fifths">
+    <div class="column-content column is-four-fifths">
       <ComplexView
         ref="complexView"
         v-if="typeSelection===TYPE.COMPLETE"
         :opt-selection="optSelection"
       />
       <SimpleView ref="simpleView" v-if="typeSelection===TYPE.SIMPLE"/>
+      <img src="../assets/bug.png"
+           alt="report bug icon"
+           class="is-pulled-right bug-container image is-48x48"
+           @keydown="()=>{}"
+           @click="toggleModal"
+      />
     </div>
+  </div>
   </div>
 </template>
 
@@ -27,10 +36,12 @@ import { SELECTIONS, TYPE } from '@/components/constants';
 import '@vuepic/vue-datepicker/dist/main.css';
 import ComplexView from '@/views/ComplexView.vue';
 import SimpleView from '@/views/SimpleView.vue';
+import BugModal from '@/components/BugModal.vue';
 
 export default {
   name: 'HomeView',
   components: {
+    BugModal,
     SimpleView,
     ComplexView,
     OptionsBox,
@@ -39,11 +50,15 @@ export default {
     return {
       SELECTIONS,
       TYPE,
+      modalActive: false,
       optSelection: SELECTIONS.OPT_OUT,
       typeSelection: TYPE.COMPLETE,
     };
   },
   methods: {
+    toggleModal() {
+      this.modalActive = !this.modalActive;
+    },
     optSelectionChange(option) {
       this.optSelection = option;
     },
@@ -74,7 +89,7 @@ export default {
 //}
 
 #app {
-  height: 100vh;
+  min-height: 100vh;
   background-color: #D9D9D9;
 }
 
@@ -88,8 +103,14 @@ header {
   padding: 0 5%;
   background-color: #D9D9D9;
   padding-top: 20px !important;
+  min-height: 100vh;
 }
-
+.bug-container {
+  position: fixed !important;
+  bottom: 10px;
+  right: 50px;
+  background-color: rgba(0,0,0,0);
+}
 .column {
   padding-top: 0;
   padding-bottom: 0;
@@ -111,6 +132,9 @@ label.column {
   height: 300px;
   box-shadow: 2px 2px 12px 2px rgb(30 30 30 / 0.2);
   position: relative;
+  &.big-section {
+    height: 500px;
+  }
   &.options {
     height: 550px;
   }

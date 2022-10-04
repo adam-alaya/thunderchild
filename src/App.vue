@@ -7,7 +7,8 @@
       <span class="logo-left">Thunder</span><span class="logo-right">Child</span>
     </div>
   </header>
-  <router-view/>
+
+  <router-view class="mb-0" />
 </template>
 
 <style lang="scss">
@@ -20,7 +21,9 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-
+footer {
+  background-color: #2c3e50;
+}
 .logo {
   font-family: 'Fira Sans', sans-serif;
   font-size: 2em;

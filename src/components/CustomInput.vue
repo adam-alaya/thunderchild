@@ -1,7 +1,7 @@
 <template>
   <div class="control is-vcentered">
       <input
-        v-if="!isDate"
+        v-if="!isDate && !isTextarea"
         name="input"
         id="input"
         :type="isText ? 'text' : 'number'"
@@ -9,6 +9,18 @@
         :value="value"
         required
       >
+      <div class="text m-0" v-else-if="isTextarea">
+        <textarea
+          id="input-text"
+          name="input-text"
+          rows="10"
+          cols="30"
+          @input="$emit('input', $event.target.value)"
+          :value="value"
+          required
+        />
+        <label for="input-text">{{ label }}</label>
+      </div>
       <input
         v-else
         name="input"
@@ -19,7 +31,8 @@
         required
         onfocus="this.type='month'"
       >
-      <label for="input">{{ label }}</label>
+      <label v-if="!isTextarea" for="input">{{ label }}</label>
+
       <span class="line"></span>
   </div>
 </template>
@@ -41,6 +54,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isTextarea: {
+      type: Boolean,
+      default: false,
+    },
     isDate: {
       type: Boolean,
       default: false,
@@ -48,55 +65,93 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 input[type="date"]:not(.has-value):before{
   content: '';
 }
+
+.text {
+  margin: 10px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding-top: 15px;
+  textarea {
+    width: 100% !important;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border: 1px solid #999;
+    box-sizing: border-box;
+    font-size: 16px;
+    position: relative;
+    z-index: 5;
+    background: none;
+  }
+
+  label {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    color: #999;
+    opacity: 1;
+    transition: .15s;
+  }
+  textarea:focus ~ label, textarea:valid ~ label {
+    opacity: 0;
+  }
+}
+
 .control {
   width: 80%;
   position: relative;
   margin: 5px;
   overflow: hidden;
   padding-top: 15px;
-}
-.control input {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #999;
-  box-sizing: border-box;
-  font-size: 16px;
-  position: relative;
-  z-index: 5;
-  background: none;
-}
-.control input:focus ~ label, input:valid ~ label  {
-  top: 0px;
-  transform: scale(0.94) translateX(-2px);
-  color: #333;
-}
-.control .line {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 3px;
-  background: #31BFA0;
-  left: -999px;
-  transition: .25s;
-  opacity: 0;
-  z-index: 6;
-}
-.control input:focus ~ .line {
-  left: 0;
-  opacity: 1;
-}
-.control label {
-  position: absolute;
-  left: 10px;
-  top: 45%;
-  transition: ease-out .15s;
-  color: #999;
+
+  input {
+    width: 90%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #999;
+    box-sizing: border-box;
+    font-size: 16px;
+    position: relative;
+    z-index: 5;
+    background: none;
+  }
+
+  input:focus ~ label, input:valid ~ label {
+    top: 0px;
+    transform: scale(0.94) translateX(-2px);
+    color: #333;
+  }
+
+  .line {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: #31BFA0;
+    left: -999px;
+    transition: .25s;
+    opacity: 0;
+    z-index: 6;
+  }
+
+  input:focus ~ .line {
+    left: 0;
+    opacity: 1;
+  }
+
+  label {
+    position: absolute;
+    left: 10px;
+    top: 45%;
+    transition: ease-out .15s;
+    color: #999;
+  }
 }
 </style>
