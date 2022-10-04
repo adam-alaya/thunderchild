@@ -76,7 +76,6 @@ export default {
   },
   methods: {
     sendEmail() {
-      debugger;
       try {
         emailjs.sendForm(
           process.env.VUE_APP_EMAIL_SERVICE_ID,
@@ -88,9 +87,10 @@ export default {
         console.log({ error });
       }
       // Reset form field
-      // this.user_name = '';
-      // this.slack_username = '';
-      // this.message = '';
+      this.user_name = '';
+      this.slack_username = '';
+      this.message = '';
+      this.$emit('close-modal');
     },
   },
 };
