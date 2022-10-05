@@ -19,7 +19,7 @@
       <SimpleView ref="simpleView" v-if="typeSelection===TYPE.SIMPLE"/>
       <img src="../assets/bug.png"
            alt="report bug icon"
-           class="is-pulled-right bug-container image is-48x48"
+           class="is-pulled-right bug-container image is-32x32"
            @keydown="()=>{}"
            @click="toggleModal"
       />
@@ -100,7 +100,8 @@ header {
 }
 
 .home {
-  padding: 0 5%;
+  padding: 0 10px;
+  padding-right: 4%;
   background-color: #D9D9D9;
   padding-top: 20px !important;
   min-height: 100vh;
@@ -110,7 +111,13 @@ header {
   bottom: 10px;
   right: 50px;
   background-color: rgba(0,0,0,0);
+  transition: all ease-in-out 0.2s;
+  &:hover {
+    transition: all ease-in-out 0.2s;
+    scale: 120%;
+  }
 }
+
 .column {
   padding-top: 0;
   padding-bottom: 0;
@@ -127,9 +134,9 @@ label.column {
 .section {
   background-color: #fff;
   border-radius: 8px;
-  margin: 10px 10px;
+  margin: 7px 7px;
   padding: 0 !important;
-  height: 300px;
+  height: 250px;
   box-shadow: 2px 2px 12px 2px rgb(30 30 30 / 0.2);
   position: relative;
   &.big-section {

@@ -1,12 +1,12 @@
 <template>
   <div class="control is-vcentered">
     <span
-      class="column is-pulled-left is-four-fifths"
+      class="column is-pulled-left is-three-quarters"
     >
         {{ label }}
     </span>
     <span
-      class="is-pulled-right is-one-fifth pt-3 pr-5"
+      class="is-pulled-right is-one-quarter pt-3 pr-5"
     >
         {{ value }}
     </span>

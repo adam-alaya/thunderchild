@@ -138,6 +138,9 @@ form {
   position: relative;
   font-size: 15px;
 }
+.control {
+  margin-top: 20px !important;
+}
 .radiobtn {
   position: relative;
   display: block;
@@ -156,8 +159,8 @@ form {
       position: absolute;
       right: 11px;
       top: 0;
-      width: 23px;
-      height: 23px;
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
       background: lighten($accentcolor, 15%);
       border: 1px solid $darkcolor;
@@ -190,10 +193,10 @@ form {
         background: $accentcolor;
       }
       &:before {
-        top: 3px;
-        right: 14px;
-        width: 17px;
-        height: 17px;
+        top: 2.5px;
+        right: 13.5px;
+        width: 10px;
+        height: 10px;
       }
     }
   }

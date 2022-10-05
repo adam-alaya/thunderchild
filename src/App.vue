@@ -24,6 +24,12 @@
 footer {
   background-color: #2c3e50;
 }
+body {
+  line-height: 1.2em !important;
+}
+input {
+  padding: 3px !important;
+}
 .logo {
   font-family: 'Fira Sans', sans-serif;
   font-size: 2em;

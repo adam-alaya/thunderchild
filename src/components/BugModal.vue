@@ -1,6 +1,6 @@
 <template>
   <div class="modal" :class="{'is-active': isActive}">
-    <div class="modal-background" @click="$emit('close-modal')" @keydown="()=>{}"></div>
+    <div class="modal-background" @click="clearForm" @keydown="()=>{}"></div>
     <div class="modal-content">
       <div class="section big-section">
         <header class="modal-card-head">
@@ -46,7 +46,7 @@
         <button
           class="modal-close is-large"
           aria-label="close"
-          @click="$emit('close-modal')">
+          @click="clearForm">
         </button>
       </div>
     </div>
@@ -55,6 +55,7 @@
 <script>
 import CustomInput from '@/components/CustomInput.vue';
 import emailjs from 'emailjs-com';
+import { useToast } from 'vue-toastification';
 
 export default {
   name: 'Bug-Modal',
@@ -75,22 +76,22 @@ export default {
     };
   },
   methods: {
-    sendEmail() {
-      try {
-        emailjs.sendForm(
-          process.env.VUE_APP_EMAIL_SERVICE_ID,
-          process.env.VUE_APP_EMAIL_TEMPLATE_ID,
-          this.$refs['bug-form'],
-          process.env.VUE_APP_EMAIL_USER_ID,
-        );
-      } catch (error) {
-        console.log({ error });
-      }
-      // Reset form field
+    clearForm() {
       this.user_name = '';
       this.slack_username = '';
       this.message = '';
       this.$emit('close-modal');
+    },
+    sendEmail() {
+      emailjs.sendForm(
+        process.env.VUE_APP_EMAIL_SERVICE_ID,
+        process.env.VUE_APP_EMAIL_TEMPLATE_ID,
+        this.$refs['bug-form'],
+        process.env.VUE_APP_EMAIL_USER_ID,
+      )
+        .then(() => useToast().success('Bug Report Sent', { timeout: 2000 }))
+        .catch(() => useToast().error('Error Sending Bug Report', { timeout: 2000 }))
+        .finally(this.clearForm);
     },
   },
 };
