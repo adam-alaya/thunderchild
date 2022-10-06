@@ -54,16 +54,6 @@ export default {
       const data = {
         ...downloadData,
         ...this.claimData,
-        // hca: this.homeCareClosing,
-        // claimEntitlement: this.paymentDetermination,
-        // previousHca: this.hcaBalance,
-        // maxContribution: this.maxGovContribution,
-        // invoiceAmount: this.totalLessOtherFeesChargesClaimedAmount,
-        // cwUnspent: this.cwUnspentClosing,
-        // itfReduction: this.itfIncome,
-        // paymentDetermination: this.paymentDetermination,
-        // changeInHca: this.homeCareClosing - this.hcaBalance,
-        // shortfall: this.invoiceLessItf,
       };
       const file = baseFile(client, downloadData.clientId, monthYear, data);
       const blob = new Blob([file], { type: 'text/plain' });

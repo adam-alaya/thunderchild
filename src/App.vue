@@ -15,6 +15,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@1,600&display=swap');
 
+$theme-green: #31BFA0;
+$theme-purple: #483D8B;
+$highlight-grey: #D9D9D9;
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -34,10 +38,10 @@ input {
   font-family: 'Fira Sans', sans-serif;
   font-size: 2em;
   .logo-left {
-    color: #483D8B;
+    color: $theme-purple;
   }
   .logo-right {
-    color: #31BFA0;
+    color: $theme-green;
   }
 }
 nav {
@@ -48,7 +52,7 @@ nav {
     color: #2c3e50;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: $theme-green;
     }
   }
 }

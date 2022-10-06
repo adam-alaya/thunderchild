@@ -177,6 +177,7 @@ form {
       width: 0;
       height: 0;
       background-color: #31BFA0;
+      border: none;
     }
   }
   input[type="radio"] {
