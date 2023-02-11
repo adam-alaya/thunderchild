@@ -22,7 +22,16 @@
         :value="claimData.paymentDetermination"
         @input="(ev)=> this.claimData.paymentDetermination = parseFloat(ev.target.value)"
       />
-
+      <NumberInputField
+        label="Home Care Account Balance"
+        :value="claimData.hcaBefore"
+        @input="(ev)=> this.claimData.hcaBefore = parseFloat(ev.target.value)"
+      />
+      <NumberInputField
+        label="Home Care Account Balance after"
+        :value="claimData.hca"
+        @input="(ev)=> this.claimData.hca = parseFloat(ev.target.value)"
+      />
     </div>
   </div>
 </template>
@@ -43,6 +52,8 @@ export default {
         claimTotal: null,
         paymentDetermination: null,
         claimEntitlement: null,
+        previousHca: null,
+        hca: null,
       },
     };
   },
