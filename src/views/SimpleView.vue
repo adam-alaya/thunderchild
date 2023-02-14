@@ -24,8 +24,8 @@
       />
       <NumberInputField
         label="Home Care Account Balance"
-        :value="claimData.hcaBefore"
-        @input="(ev)=> this.claimData.hcaBefore = parseFloat(ev.target.value)"
+        :value="claimData.previousHca"
+        @input="(ev)=> this.claimData.previousHca = parseFloat(ev.target.value)"
       />
       <NumberInputField
         label="Home Care Account Balance after"
