@@ -6,11 +6,41 @@
     <div class="logo">
       <span class="logo-left">Thunder</span><span class="logo-right">Child</span>
     </div>
+    <div @keydown="toggleDropdown" @click="toggleDropdown" class="app-list">
+      <div class="dropdown" :class="{ 'is-active': dropdownActive }">
+        <div class="dropdown-trigger">
+          <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span>Apps</span>
+            <span class="icon is-small"> v </span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+          <div class="dropdown-content">
+            <a href="/" class="dropdown-item">HCP Payment File</a>
+            <a href="#/bpay" class="dropdown-item">Westpac BPay File</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </header>
 
   <router-view class="mb-0" />
 </template>
-
+<script>
+export default {
+  name: 'InputField',
+  data() {
+    return {
+      dropdownActive: false,
+    };
+  },
+  methods: {
+    toggleDropdown() {
+      this.dropdownActive = !this.dropdownActive;
+    },
+  },
+};
+</script>
 <style lang="scss">
 
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@1,600&display=swap');
@@ -25,6 +55,7 @@ $highlight-grey: #D9D9D9;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+
 footer {
   background-color: #2c3e50;
 }
@@ -35,6 +66,7 @@ input {
   padding: 3px !important;
 }
 .logo {
+  display: inline-block;
   font-family: 'Fira Sans', sans-serif;
   font-size: 2em;
   .logo-left {
@@ -43,6 +75,12 @@ input {
   .logo-right {
     color: $theme-green;
   }
+}
+.app-list {
+  margin-left: auto;
+  margin-right: 100px;
+  float: right;
+  vertical-align: center;
 }
 nav {
   padding: 30px;
