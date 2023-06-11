@@ -1,47 +1,54 @@
 <template>
   <div class="card">
     <div class="columns">
-      <label for="processing-date" class="column">Processing Date</label>
-      <label for="ccn" class="column">CCN</label>
-      <label for="amount" class="column">Amount</label>
-      <label for="bpay-number" class="column">BPAY Receipt Number</label>
+      <label
+        class="column is-pulled-left is-one-third"
+        for="processing-date"
+      >
+        Processing Date
+      </label>
       <input
-        class="input is-small is-pulled-right"
+        class="input is-one-third column"
         type="text"
         aria-labelledby="#processing-date"
         placeholder="20231201"
-        :value="processingDate"
+        v-model="processingDate"
       />
     </div>
-    <p v-bind:key="index" v-for="(row, index) in rows" class="columns">
+    <div class="columns">
+      <label for="ccn" class="column">CCN</label>
+      <label for="amount" class="column">Amount</label>
+      <label for="bpay-number" class="column">BPAY Receipt Number</label>
+    </div>
+    <p :key="row.id" v-for="row in rows" class="columns">
       <input
         class="input is-small is-pulled-right"
         type="text"
         aria-labelledby="#ccn"
         placeholder="CCN"
-        :value="row.ccn"
+        v-model="row.ccn"
       />
       <input
         class="input is-small is-pulled-right"
         type="text"
         aria-labelledby="#amount"
         placeholder="Amount"
-        :value="row.amount"
+        v-model="row.amount"
       />
       <input
         class="input is-small is-pulled-right"
         type="text"
         aria-labelledby="#bpay-number"
         placeholder="BPAY Receipt Number"
-        :value="row.bpay"
+        v-model="row.bpay"
       />
-      <button class="button remove row-button" @click='deleteRow'>
+      <button class="button remove row-button" @click='() => deleteRow(row.id)'>
         Remove Row
       </button>
-      <button class="button add row-button" @click='addNewRow'>
+    </p>
+      <button class="button add row-button" @click.stop='addNewRow'>
         Add Row
       </button>
-    </p>
       <button class="button add row-button" @click='downloadFile'>
         Download File
       </button>
@@ -53,8 +60,10 @@ export default {
   data() {
     return {
       processingDate: '',
+      rowCount: 1,
       rows: [
         {
+          id: 1,
           date: '',
           ccn: null,
           amount: null,
@@ -91,13 +100,13 @@ export default {
       const payments = [];
       this.rows.forEach((row) => {
         let record = '1'; // record type
-        record += `${row.crn}`.padStart(29, ' '); // crn
+        record += `${row.ccn}`.padStart(29, ' '); // crn
         record += 'B'; // Payment type
         record += `${row.amount}`.padStart(11, '0'); // Bill Amount
         record += 'IB'; // Type BPAY
         record += ' '.repeat(8); // TIDD receipt number
         record += ' '.repeat(16); // Voucher Trace Number
-        record += row.bpay; // BPAY Reciept Number
+        record += `${row.bpay}`.padStart(21, ' '); // BPAY Reciept Number
         record += '9301'; // Transaction Type
         record += '000'; // Transcaction Sequence Number
         record += ' '.repeat(16); // Debit Information
@@ -113,9 +122,16 @@ export default {
   methods: {
     downloadFile() {
       console.log(this.formattedRows);
+      const blob = new Blob([this.formattedRows], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.download = `${this.processingDate} Westpac BPay Test File.txt`;
+      link.href = window.URL.createObjectURL(blob);
+      link.click();
     },
     addNewRow() {
+      this.rowCount += 1;
       const newRow = {
+        id: this.rowCount,
         date: '',
         ccn: null,
         amount: null,
@@ -123,11 +139,8 @@ export default {
       };
       this.rows.push(newRow);
     },
-    deleteRow() {
-      if (this.rows.lenth <= 1) {
-        return;
-      }
-      this.rows.pop();
+    deleteRow(rowId) {
+      this.rows = this.rows.filter((item) => item.id !== rowId);
     },
   },
 };
