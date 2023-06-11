@@ -5,38 +5,38 @@
         class="column is-pulled-left is-one-third"
         for="processing-date"
       >
-        Processing Date
+        Processing Date (DDMMYYYY)
       </label>
       <input
         class="input is-one-third column"
         type="text"
         aria-labelledby="#processing-date"
-        placeholder="20231201"
+        placeholder="18022023"
         v-model="processingDate"
       />
     </div>
     <div class="columns">
       <label for="ccn" class="column">CCN</label>
-      <label for="amount" class="column">Amount</label>
+      <label for="amount" class="column">Amount in Cents</label>
       <label for="bpay-number" class="column">BPAY Receipt Number</label>
     </div>
     <p :key="row.id" v-for="row in rows" class="columns">
       <input
-        class="input is-small is-pulled-right"
+        class="input is-pulled-right"
         type="text"
         aria-labelledby="#ccn"
         placeholder="CCN"
         v-model="row.ccn"
       />
       <input
-        class="input is-small is-pulled-right"
+        class="input is-pulled-right"
         type="text"
         aria-labelledby="#amount"
         placeholder="Amount"
         v-model="row.amount"
       />
       <input
-        class="input is-small is-pulled-right"
+        class="input is-pulled-right"
         type="text"
         aria-labelledby="#bpay-number"
         placeholder="BPAY Receipt Number"
@@ -100,13 +100,13 @@ export default {
       const payments = [];
       this.rows.forEach((row) => {
         let record = '1'; // record type
-        record += `${row.ccn}`.padStart(29, ' '); // crn
+        record += `${row.ccn}`.padEnd(29, ' '); // crn
         record += 'B'; // Payment type
         record += `${row.amount}`.padStart(11, '0'); // Bill Amount
         record += 'IB'; // Type BPAY
         record += ' '.repeat(8); // TIDD receipt number
         record += ' '.repeat(16); // Voucher Trace Number
-        record += `${row.bpay}`.padStart(21, ' '); // BPAY Reciept Number
+        record += `${row.bpay}`.padEnd(21, ' '); // BPAY Reciept Number
         record += '9301'; // Transaction Type
         record += '000'; // Transcaction Sequence Number
         record += ' '.repeat(16); // Debit Information
@@ -165,6 +165,7 @@ export default {
       border:2px solid #dc146c;
     }
   }
+  margin-left: 20px;
   font-family: 'Fira Sans', sans-serif;
   border-radius: 8px 8px 8px 8px;
   transition: all ease-in-out 0.2s;
