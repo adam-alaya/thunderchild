@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <DisclaimerMsg />
     <div class="columns">
     <BugModal :isActive="modalActive" @closeModal="toggleModal"/>
     <div class="column is-one-fifth">
@@ -32,6 +33,7 @@
 // @ is an alias to /src
 import OptionsBox from '@/components/OptionsBox.vue';
 import { SELECTIONS, TYPE } from '@/components/constants';
+import DisclaimerMsg from '@/components/DisclaimerMsg.vue';
 
 import '@vuepic/vue-datepicker/dist/main.css';
 import ComplexView from '@/views/ComplexView.vue';
@@ -41,6 +43,7 @@ import BugModal from '@/components/BugModal.vue';
 export default {
   name: 'HomeView',
   components: {
+    DisclaimerMsg,
     BugModal,
     SimpleView,
     ComplexView,
