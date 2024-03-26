@@ -1,4 +1,4 @@
-const baseFile = (clientName, clientId, monthYear, data) =>
+const baseFile = (clientName, clientId, monthYear, data) => (
   `<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <paymentStmtResponse>
   <homeCarePaymentStmtHeader>
@@ -50,6 +50,6 @@ const baseFile = (clientName, clientId, monthYear, data) =>
   <paymentSummary />
   <providerComments/>
 </paymentStmtResponse>
-`;
+`);
 
 export default baseFile;
