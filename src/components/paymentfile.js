@@ -38,7 +38,7 @@ const baseFile = (clientName, clientId, monthYear, data) => (
         <claimEntitlement>${data.claimEntitlement}</claimEntitlement>
         <previousHomeCareAccountBalance>${data.previousHca || 0}</previousHomeCareAccountBalance>
         <maximumContribution>${data.maxContribution || 0}</maximumContribution>
-        <invoiceAmount>${data.invoiceAmount || 0}</invoiceAmount>
+        <invoiceAmount>${data.invoiceAmount || data.claimPrice || 0}</invoiceAmount>
         <cwuaunspentAmount>${data.cwUnspent || 0}</cwuaunspentAmount>
         <itfReductionAmount>${data.itfReduction || 0}</itfReductionAmount>
         <shortfallAmount>${data.shortfall || 0}</shortfallAmount>
