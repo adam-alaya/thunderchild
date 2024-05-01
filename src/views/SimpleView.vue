@@ -1,6 +1,6 @@
 <template>
   <div class="columns">
-    <div class="column is-one-third section">
+    <div class="column is-one-third big-section">
       <h1 class="mb-1">Payment Details</h1>
       <NumberInputField
         @input="(ev)=> this.claimData.claimPrice = parseFloat(ev.target.value)"
