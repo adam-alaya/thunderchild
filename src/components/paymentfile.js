@@ -1,4 +1,4 @@
-const baseFile = (clientName, clientId, monthYear, data) => (
+const baseFile = (clientName, clientId, monthYear, data) =>
   `<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <paymentStmtResponse>
   <homeCarePaymentStmtHeader>
@@ -42,7 +42,7 @@ const baseFile = (clientName, clientId, monthYear, data) => (
         <cwuaunspentAmount>${data.cwUnspent || 0}</cwuaunspentAmount>
         <itfReductionAmount>${data.itfReduction || 0}</itfReductionAmount>
         <shortfallAmount>${data.shortfall || 0}</shortfallAmount>
-        <paymentDetermination>${data.paymentDetermination}</paymentDetermination>
+        <paymentDetermination>${data.paymentDetermination || 0}</paymentDetermination>
         <changeInHomeCareAccount>${data.claimPrice || 0}</changeInHomeCareAccount>
       </payment>
     </careRecipientPayment>
@@ -50,6 +50,6 @@ const baseFile = (clientName, clientId, monthYear, data) => (
   <paymentSummary />
   <providerComments/>
 </paymentStmtResponse>
-`);
+`;
 
 export default baseFile;
