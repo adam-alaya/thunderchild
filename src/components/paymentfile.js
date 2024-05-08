@@ -1,5 +1,9 @@
-const baseFile = (clientName, clientId, monthYear, data) => `
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+const baseFile = (
+  clientName,
+  clientId,
+  monthYear,
+  data,
+) => `<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <paymentStmtResponse>
   <homeCarePaymentStmtHeader>
     <claimMonth>${monthYear}</claimMonth>
@@ -35,7 +39,7 @@ const baseFile = (clientName, clientId, monthYear, data) => `
       <payment>
         <entitlementType>Current</entitlementType>
         <entitlementMonth>${monthYear}</entitlementMonth>
-        <claimEntitlement>${data.claimEntitlement}</claimEntitlement>
+        <claimEntitlement>${data.claimEntitlement || 0}</claimEntitlement>
         <previousHomeCareAccountBalance>${data.previousHca || 0}</previousHomeCareAccountBalance>
         <maximumContribution>${data.maxContribution || 0}</maximumContribution>
         <invoiceAmount>${data.invoiceAmount || data.claimPrice || 0}</invoiceAmount>
