@@ -1,5 +1,5 @@
-const baseFile = (clientName, clientId, monthYear, data) =>
-  `<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+const baseFile = (clientName, clientId, monthYear, data) => `
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <paymentStmtResponse>
   <homeCarePaymentStmtHeader>
     <claimMonth>${monthYear}</claimMonth>
